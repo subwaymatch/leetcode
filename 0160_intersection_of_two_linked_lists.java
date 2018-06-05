@@ -34,8 +34,6 @@ public class Solution {
         ListNode shorterListNode = (lenA < lenB) ? headA : headB; 
         ListNode longerListNode = (lenA < lenB) ? headB : headA; 
         
-        System.out.println("lenA=" + lenA + ", lenB=" + lenB); 
-        
         for (int i = 0; i < diff; i++) {
             longerListNode = longerListNode.next; 
         }
