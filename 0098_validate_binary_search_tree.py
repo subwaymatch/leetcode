@@ -7,9 +7,7 @@
 
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
-        result = self.is_valid_BST(root)
-        
-        return result[0]
+        return self.is_valid_BST(root)[0]
     
     # Return is_valid, min, max
     def is_valid_BST(self, node: TreeNode) -> (bool, int, int):
