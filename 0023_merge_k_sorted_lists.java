@@ -1,37 +1,36 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
- */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        PriorityQueue<ListNode> pq = new PriorityQueue<>((node1, node2) -> node1.val - node2.val); 
+        if (lists.length == 0) return null; 
+        else if (lists.length == 1) return lists[0];
+        else if (lists.length == 2) return mergeTwoLists(lists[0], lists[1]); 
+        else {
+            ListNode[] a = Arrays.copyOfRange(lists, 0, (lists.length + 1) / 2);
+            ListNode[] b = Arrays.copyOfRange(lists, (lists.length + 1) / 2, lists.length); 
+
+            return mergeTwoLists(mergeKLists(a), mergeKLists(b));   
+        }
+    }
+    
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0);
+        ListNode currNode = dummy; 
         
-        for (ListNode node : lists) {
-            if (node != null) {
-                pq.add(node); 
+        ListNode n1ptr = list1; 
+        ListNode n2ptr = list2; 
+        
+        while (n1ptr != null || n2ptr != null) {
+            if (n2ptr == null || (n1ptr != null && n1ptr.val < n2ptr.val)) {
+                currNode.next = n1ptr; 
+                currNode = n1ptr; 
+                n1ptr = n1ptr.next;
+            }
+            else {
+                currNode.next = n2ptr;
+                currNode = n2ptr;
+                n2ptr = n2ptr.next; 
             }
         }
         
-        if (pq.isEmpty()) return null; 
-        
-        ListNode root = pq.poll();
-        if (root.next != null) pq.add(root.next); 
-        ListNode currNode = root; 
-        
-        while (!pq.isEmpty()) {
-            // System.out.println(pq.peek().val);
-            ListNode nextNode = pq.poll(); 
-            
-            currNode.next = nextNode; 
-            currNode = nextNode; 
-            
-            if (nextNode.next != null) pq.add(nextNode.next); 
-        }
-        
-        return root;
+        return dummy.next; 
     }
 }
